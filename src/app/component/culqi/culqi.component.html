@@ -1,0 +1,14 @@
+<div >
+  <h2 class="mb-4">Ejemplo de la pasarela de pago con Culqi</h2>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title text-center">Carrito de Compra</h5>
+      <ul *ngFor="let item of product">
+        <li>{{ item.description }}  => {{ item.amount | currency : "S/. " }}</li>
+      </ul>
+      <section class=" text-center">
+        <button (click)="payment()" class="text-white btn btn-sm btn-success">Total a Pagar: {{ product[0]["amount"] | currency : "S/. " }}</button>
+      </section>
+    </div>
+  </div>
+</div>
