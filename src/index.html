@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="utf-8">
   <title>CulqiAngular</title>
@@ -9,5 +9,18 @@
 </head>
 <body>
   <app-root></app-root>
+  <script src="https://checkout.culqi.com/js/v3"></script>
+  <script>
+    function culqi() {
+      console.log("iniio");
+      if (Culqi.token) {
+        var token = Culqi.token.id;
+        var payment_event = new CustomEvent("payment_event", {
+          detail: token,
+        });
+        document.dispatchEvent(payment_event);
+      }
+    }
+  </script>
 </body>
 </html>
