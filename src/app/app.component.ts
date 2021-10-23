@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 import { NgCulqiService } from 'ng-culqi';
 
@@ -14,14 +14,15 @@ export class AppComponent {
   };
   TOKEN_CULQI = '';
 
-  constructor(private ngCulqiService: NgCulqiService) {
-    document.addEventListener('payment_event', (token: any) => {
-      this.TOKEN_CULQI = token.detail;
-    });
-  }
+  constructor(private ngCulqiService: NgCulqiService) {}
 
   ngOnInit() {
     this.ngCulqiService.initCulqi('ENTER_PUBLIC_KEY');
+  }
+
+  @HostListener('document:payment_event', ['$event'])
+  onPaymentEventCustom($event: CustomEvent) {
+    this.TOKEN_CULQI = $event.detail;
   }
 
   payment() {

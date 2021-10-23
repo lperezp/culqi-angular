@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="es">
+
 <head>
   <meta charset="utf-8">
   <title>CulqiAngular</title>
@@ -7,12 +8,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
+
 <body>
   <app-root></app-root>
   <script src="https://checkout.culqi.com/js/v3"></script>
   <script>
     function culqi() {
-      console.log("iniio");
       if (Culqi.token) {
         var token = Culqi.token.id;
         var payment_event = new CustomEvent("payment_event", {
@@ -21,6 +22,8 @@
         document.dispatchEvent(payment_event);
       }
     }
+
   </script>
 </body>
+
 </html>
