@@ -1,20 +1,13 @@
-import { CurrencyPipe } from '@angular/common';
 import { Component } from '@angular/core';
+import { CartComponent } from "./components/cart/cart.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CurrencyPipe],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
+  imports: [CartComponent]
 })
 export class AppComponent {
-  product = [{
-    description: "Polo Culqi Lover",
-    amount: 100
-  }];
 
-  payment() {
-    // this.clqSrv.payorder(this.product[0]["description"], this.product[0]["amount"]);
-  }
 }

@@ -1,0 +1,33 @@
+.cart {
+    display: block;
+    border: 1px solid #bdbdbd;
+    border-radius: 4px;
+    padding: 20px;
+
+    .title {
+        margin: 0 0 20px 0;
+    }
+
+    .card {
+
+        .list {
+            &Item {
+                display: flex;
+                justify-content: space-between;
+
+                p {
+                    margin: 0 0 12px 0;
+                }
+            }
+        }
+
+        .btn {
+            background-color: var(--hot-red);
+            padding: 8px 20px;
+            border-radius: 4px;
+            color: white;
+            border: none;
+        }
+    }
+
+}
