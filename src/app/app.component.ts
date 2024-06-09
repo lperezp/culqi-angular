@@ -1,13 +1,20 @@
+import { CurrencyPipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [CurrencyPipe],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'culqi-angular';
+  product = [{
+    description: "Polo Culqi Lover",
+    amount: 100
+  }];
+
+  payment() {
+    // this.clqSrv.payorder(this.product[0]["description"], this.product[0]["amount"]);
+  }
 }
