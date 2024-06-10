@@ -9,7 +9,6 @@
     }
 
     .card {
-
         .list {
             &Item {
                 display: flex;
@@ -22,7 +21,8 @@
         }
 
         .btn {
-            background-color: var(--hot-red);
+            margin-top: 20px;
+            background-color: #5C44E4;
             padding: 8px 20px;
             border-radius: 4px;
             color: white;
