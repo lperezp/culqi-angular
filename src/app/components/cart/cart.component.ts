@@ -1,8 +1,8 @@
 import { CurrencyPipe } from '@angular/common';
-import { Component, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgCulqiService } from '../../services/ng-culqi.service';
-import { ICulqiOptions } from '../../models/culqi.model';
-export declare let Culqi: any;
+import { ICulqiOptions, IOrderCulqiResponse } from '../../models/culqi.model';
+import { environment } from '../../../environments/environment.development';
 
 @Component({
   selector: 'app-cart',
@@ -22,41 +22,46 @@ export class CartComponent {
       amount: 300
     }
   ];
-  TOKEN_CULQI = '';
-  amountTotal = 0;
-
+  amountTotal = 400;
+  order = {
+    "amount": this.amountTotal * 100,
+    "currency_code": "PEN",
+    "description": "Sales of products",
+    "order_number": Date.now(),
+    "client_details": {
+      "first_name": "nameDemo",
+      "last_name": "LastNameDemo",
+      "email": "demo@demo.com",
+      "phone_number": "987654321"
+    },
+    "expiration_date": 1718329719,
+    "confirm": false
+  };
+  styleCulqi = {
+    logo: 'https://developers.google.com/static/homepage-assets/images/angular_gradient.png',
+    bannerColor: '#5C44E4',
+    buttonBackground: '#5C44E4',
+    menuColor: '#5C44E4',
+    linksColor: '#5C44E4',
+    priceColor: '#5C44E4',
+  };
   constructor(private ngCulqiService: NgCulqiService) {
-    this.ngCulqiService.loadScriptCulqi();
-    this.amountTotal = this.listProducts.reduce((acc, product) => acc + product.amount, 0);
   }
 
-  @HostListener('document:payment_event', ['$event'])
-  onPaymentEventCustom($event: CustomEvent) {
-    this.TOKEN_CULQI = $event.detail;
-  }
+  paymentCulqi(): void {
+    this.ngCulqiService.generateOrder(this.order).subscribe((response: Partial<IOrderCulqiResponse>) => {
+      console.log('Order Culqi', JSON.stringify(response));
+      const culqiSettings = {
+        title: this.order.description,
+        currency: 'PEN',
+        amount: this.order.amount,
+        order: response.id,
+        xculqirsaid: environment.xculqirsaid,
+        rsapublickey: environment.rsapublickey
+      };
 
-
-  paymentCulqi() {
-    this.ngCulqiService.initCulqi('pk_test_a5b492dd2912c2db');
-    const culqiSettings = {
-      title: 'ng-culqi',
-      currency: 'PEN',
-      amount: (this.amountTotal * 100),
-      order: 'ord_live_0CjjdWhFpEAZlxlz',
-      xculqirsaid: '1',
-      rsapublickey: 'test',
-    };
-
-    const culqiOptions: ICulqiOptions = {
-      style: {
-        logo: 'https://developers.google.com/static/homepage-assets/images/angular_gradient.png',
-        bannerColor: '#5C44E4',
-        buttonBackground: '#5C44E4',
-        menuColor: '#5C44E4',
-        linksColor: '#5C44E4',
-        priceColor: '#5C44E4',
-      }
-    };
-    this.ngCulqiService.generateToken(culqiSettings, culqiOptions);
+      const culqiOptions: ICulqiOptions = { style: this.styleCulqi };
+      this.ngCulqiService.generateToken(culqiSettings, culqiOptions);
+    });
   }
 }

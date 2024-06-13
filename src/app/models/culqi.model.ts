@@ -1,16 +1,11 @@
-export interface ICulqi {
-    settings: ICulqiSettings;
-}
-
 export interface ICulqiSettings {
     title: string;
     currency: string;
     amount: number;
-    order: string;
+    order: string | undefined;
     xculqirsaid: string;
     rsapublickey: string;
 }
-
 export interface ICulqiOptions {
     lang?: string;
     installments?: boolean;
@@ -38,38 +33,42 @@ export interface Style {
     priceColor?: string;
 }
 
-export interface IGetOptions {
-    customButton: string;
-    head: boolean;
-    installments: boolean;
-    lang: string;
-    modal: boolean;
-    onlyInputs: boolean;
-    style: object;
-}
-
-export interface IGetSettings {
+export interface IOrderCulqi {
     amount: number;
-    currency: string;
+    currency_code: string;
     description: string;
-    title: string;
-    version: number;
+    order_number: number;
+    client_details: ClientDetails;
+    expiration_date: number;
+    confirm: boolean;
 }
 
-export interface IPaymentEvent {
-    bubbles: boolean;
-    cancelBubble: boolean;
-    cancelable: boolean;
-    composed: boolean;
-    currentTarget: null;
-    defaultPrevented: boolean;
-    detail: string;
-    eventPhase: number;
-    isTrusted: boolean;
-    path: any[];
-    returnValue: boolean;
-    srcElement: any;
-    target: any;
-    timeStamp: number;
-    type: string;
+export interface ClientDetails {
+    first_name: string;
+    last_name: string;
+    email: string;
+    phone_number: string;
+}
+
+export interface IOrderCulqiResponse {
+    object: string;
+    id: string;
+    amount: number;
+    payment_code: null;
+    currency_code: string;
+    description: string;
+    order_number: string;
+    state: string;
+    total_fee: null;
+    net_amount: null;
+    fee_details: null;
+    creation_date: number;
+    expiration_date: number;
+    updated_at: number;
+    paid_at: null;
+    available_on: null;
+    metadata: null;
+    qr: null;
+    cuotealo: null;
+    url_pe: null;
 }
