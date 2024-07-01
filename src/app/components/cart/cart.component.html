@@ -1,0 +1,17 @@
+<div class="cart">
+    <h2 class="title">Shopping Cart</h2>
+    <div class="card">
+        <div class="list">
+            @for(item of listProducts; track item.description){
+            <div class="listItem">
+                <p>{{ item.description }}</p>
+                <p>{{ item.amount | currency : "S/. " }}</p>
+            </div>
+            }
+            <button (click)="paymentCulqi()" class="btn">Pagar {{this.amountTotal| currency : "S/. " }}</button>
+        </div>
+    </div>
+</div>
+@if (this.tokenCreated){
+<p>tokenCreated: {{ this.tokenCreated }}</p>
+}
