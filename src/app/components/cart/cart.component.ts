@@ -34,7 +34,7 @@ export class CartComponent {
       "email": "demo@demo.com",
       "phone_number": "987654321"
     },
-    "expiration_date": 1718329719,
+    "expiration_date": (Math.floor(Date.now() / 1000) + 86400),
     "confirm": false
   };
   styleCulqi = {
