@@ -59,6 +59,12 @@ export class CartComponent {
         this.ngCulqiService.closeCulqi();
       }
     });
+
+    this.ngCulqiService.orderCreated$.subscribe(value => {
+      if (value) {
+        this.showOrder(value);
+      }
+    });
   }
 
   paymentCulqi(): void {
