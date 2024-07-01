@@ -45,7 +45,20 @@ export class CartComponent {
     linksColor: '#5C44E4',
     priceColor: '#5C44E4',
   };
+
+  tokenCreated: string | null = null;
+  orderCreated: string | null = null;
+
   constructor(private ngCulqiService: NgCulqiService) {
+  }
+
+  ngOnInit(): void {
+    this.ngCulqiService.tokenCreated$.subscribe(value => {
+      if (value) {
+        this.showToken(value);
+        this.ngCulqiService.closeCulqi();
+      }
+    });
   }
 
   paymentCulqi(): void {
@@ -63,5 +76,13 @@ export class CartComponent {
       const culqiOptions: ICulqiOptions = { style: this.styleCulqi };
       this.ngCulqiService.generateToken(culqiSettings, culqiOptions);
     });
+  }
+
+  showToken(token: string): void {
+    this.tokenCreated = token;
+  }
+
+  showOrder(order: string): void {
+    this.orderCreated = order;
   }
 }

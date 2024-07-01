@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ICulqiOptions, ICulqiSettings, IOrderCulqi, IOrderCulqiResponse } from '../models/culqi.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 export declare let Culqi: any;
 
 
@@ -10,10 +10,23 @@ export declare let Culqi: any;
   providedIn: 'root'
 })
 export class NgCulqiService {
+  tokenCreatedSubject = new BehaviorSubject<string | null>(null);
+  tokenCreated$ = this.tokenCreatedSubject.asObservable();
+
+  orderCreatedSubject = new BehaviorSubject<string | null>(null);
+  orderCreated$ = this.orderCreatedSubject.asObservable();
 
   constructor(private http: HttpClient) {
     (window as any).culqi = this.culqi.bind(this);
     this.loadScriptCulqi();
+  }
+
+  setTokenCreated(value: string): void {
+    this.tokenCreatedSubject.next(value);
+  }
+
+  setOrderCreated(value: string): void {
+    this.orderCreatedSubject.next(value);
   }
 
   initCulqi(): void {
@@ -62,15 +75,18 @@ export class NgCulqiService {
   }
 
   culqi(): void {
-    console.log('Culqi', Culqi);
     if (Culqi.token) {
       const token = Culqi.token.id;
-      console.log('Token created', token);
+      this.setTokenCreated(token);
     } else if (Culqi.order) {
       const order = Culqi.order;
-      console.log('Order created: ', order);
+      this.setOrderCreated(order);
     } else {
       console.log('Error :', Culqi.error);
     }
+  }
+
+  closeCulqi(): void {
+    Culqi.close();
   }
 }
