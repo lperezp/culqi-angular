@@ -1,6 +1,6 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { NgxCulqiService } from 'ngx-culqi';
+import { ICulqiOptions, IOrderCulqiResponse, NgxCulqiService } from 'ngx-culqi';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -67,8 +67,7 @@ export class CartComponent {
   }
 
   paymentCulqi(): void {
-    this.ngxCulqiService.generateOrder(this.order).subscribe((response: any) => {
-      console.log('Order Culqi', JSON.stringify(response));
+    this.ngxCulqiService.generateOrder(this.order).subscribe((response: Partial<IOrderCulqiResponse>) => {
       const culqiSettings = {
         title: this.order.description,
         currency: 'PEN',
@@ -78,7 +77,7 @@ export class CartComponent {
         rsapublickey: environment.rsapublickey
       };
 
-      const culqiOptions = { style: this.styleCulqi };
+      const culqiOptions: ICulqiOptions = { style: this.styleCulqi };
       this.ngxCulqiService.generateToken(culqiSettings, culqiOptions);
     });
   }
