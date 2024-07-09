@@ -22,20 +22,7 @@ export class CartComponent {
     }
   ];
   amountTotal = 400;
-  order = {
-    "amount": this.amountTotal * 100,
-    "currency_code": "PEN",
-    "description": "Sales of products",
-    "order_number": Date.now(),
-    "client_details": {
-      "first_name": "nameDemo",
-      "last_name": "LastNameDemo",
-      "email": "demo@demo.com",
-      "phone_number": "987654321"
-    },
-    "expiration_date": (Math.floor(Date.now() / 1000) + 86400),
-    "confirm": false
-  };
+
   styleCulqi = {
     logo: 'https://developers.google.com/static/homepage-assets/images/angular_gradient.png',
     bannerColor: '#5C44E4',
@@ -67,11 +54,25 @@ export class CartComponent {
   }
 
   paymentCulqi(): void {
-    this.ngxCulqiService.generateOrder(this.order).subscribe((response: Partial<IOrderCulqiResponse>) => {
+    const order = {
+      "amount": this.amountTotal * 100,
+      "currency_code": "PEN",
+      "description": "Sales of products",
+      "order_number": Date.now(),
+      "client_details": {
+        "first_name": "nameDemo",
+        "last_name": "LastNameDemo",
+        "email": "demo@demo.com",
+        "phone_number": "987654321"
+      },
+      "expiration_date": (Math.floor(Date.now() / 1000) + 86400),
+      "confirm": false
+    };
+    this.ngxCulqiService.generateOrder(order).subscribe((response: Partial<IOrderCulqiResponse>) => {
       const culqiSettings = {
-        title: this.order.description,
+        title: order.description,
         currency: 'PEN',
-        amount: this.order.amount,
+        amount: order.amount,
         order: response.id,
         xculqirsaid: environment.xculqirsaid,
         rsapublickey: environment.rsapublickey
