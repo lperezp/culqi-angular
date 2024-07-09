@@ -88,5 +88,7 @@ export class NgCulqiService {
 
   closeCulqi(): void {
     Culqi.close();
+    this.tokenCreatedSubject.unsubscribe();
+    this.orderCreatedSubject.unsubscribe();
   }
 }
