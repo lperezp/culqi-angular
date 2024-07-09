@@ -1,5 +1,7 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component } from '@angular/core';
+import { NgxCulqiService } from 'ngx-culqi';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-cart',
@@ -46,7 +48,46 @@ export class CartComponent {
   tokenCreated: string | null = null;
   orderCreated: string | null = null;
 
-  paymentCulqi(): void {
+  constructor(private ngxCulqiService: NgxCulqiService) { }
 
+  ngOnInit(): void {
+    this.ngxCulqiService.loadScriptCulqi(environment.tokenCulqi, environment.apiKeyCulqi);
+    this.ngxCulqiService.tokenCreated$.subscribe(value => {
+      if (value) {
+        this.showToken(value);
+        this.ngxCulqiService.closeCulqi();
+      }
+    });
+
+    this.ngxCulqiService.orderCreated$.subscribe(value => {
+      if (value) {
+        this.showOrder(value);
+      }
+    });
+  }
+
+  paymentCulqi(): void {
+    this.ngxCulqiService.generateOrder(this.order).subscribe((response: any) => {
+      console.log('Order Culqi', JSON.stringify(response));
+      const culqiSettings = {
+        title: this.order.description,
+        currency: 'PEN',
+        amount: this.order.amount,
+        order: response.id,
+        xculqirsaid: environment.xculqirsaid,
+        rsapublickey: environment.rsapublickey
+      };
+
+      const culqiOptions = { style: this.styleCulqi };
+      this.ngxCulqiService.generateToken(culqiSettings, culqiOptions);
+    });
+  }
+
+  showToken(token: string): void {
+    this.tokenCreated = token;
+  }
+
+  showOrder(order: string): void {
+    this.orderCreated = order;
   }
 }
