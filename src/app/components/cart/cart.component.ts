@@ -1,12 +1,12 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { ICulqiOptions, IOrderCulqiResponse, NgxCulqiService } from 'ngx-culqi';
-import { environment } from '../../../environments/environment';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, FormsModule],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss'
 })
@@ -23,6 +23,11 @@ export class CartComponent {
   ];
   amountTotal = 400;
 
+  tokenCulqi: string = '';
+  apiKeyCulqi: string = '';
+  xculqirsaid: string = '';
+  rsapublickey: string = ``;
+
   styleCulqi = {
     logo: 'https://developers.google.com/static/homepage-assets/images/angular_gradient.png',
     bannerColor: '#5C44E4',
@@ -38,7 +43,6 @@ export class CartComponent {
   constructor(private ngxCulqiService: NgxCulqiService) { }
 
   ngOnInit(): void {
-    this.ngxCulqiService.loadScriptCulqi(environment.tokenCulqi, environment.apiKeyCulqi);
     this.ngxCulqiService.tokenCreated$.subscribe(value => {
       if (value) {
         this.showToken(value);
@@ -54,6 +58,8 @@ export class CartComponent {
   }
 
   paymentCulqi(): void {
+    // This function must be called from ngOnInit. Just for this example, it is inside the payment with a setTimeOut to be set from the form.
+    this.ngxCulqiService.loadScriptCulqi(this.tokenCulqi, this.apiKeyCulqi);
     const order = {
       "amount": this.amountTotal * 100,
       "currency_code": "PEN",
@@ -68,19 +74,21 @@ export class CartComponent {
       "expiration_date": (Math.floor(Date.now() / 1000) + 86400),
       "confirm": false
     };
-    this.ngxCulqiService.generateOrder(order).subscribe((response: Partial<IOrderCulqiResponse>) => {
-      const culqiSettings = {
-        title: order.description,
-        currency: 'PEN',
-        amount: order.amount,
-        order: response.id,
-        xculqirsaid: environment.xculqirsaid,
-        rsapublickey: environment.rsapublickey
-      };
+    setTimeout(() => {
+      this.ngxCulqiService.generateOrder(order).subscribe((response: Partial<IOrderCulqiResponse>) => {
+        const culqiSettings = {
+          title: order.description,
+          currency: 'PEN',
+          amount: order.amount,
+          order: response.id,
+          xculqirsaid: this.xculqirsaid,
+          rsapublickey: this.rsapublickey
+        };
 
-      const culqiOptions: ICulqiOptions = { style: this.styleCulqi };
-      this.ngxCulqiService.generateToken(culqiSettings, culqiOptions);
-    });
+        const culqiOptions: ICulqiOptions = { style: this.styleCulqi };
+        this.ngxCulqiService.generateToken(culqiSettings, culqiOptions);
+      });
+    }, 3000);
   }
 
   showToken(token: string): void {
