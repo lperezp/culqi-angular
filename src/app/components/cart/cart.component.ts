@@ -57,9 +57,11 @@ export class CartComponent {
     });
   }
 
-  paymentCulqi(): void {
-    // This function must be called from ngOnInit. Just for this example, it is inside the payment with a setTimeOut to be set from the form.
+  setConfigureCulqi(): void {
     this.ngxCulqiService.loadScriptCulqi(this.tokenCulqi, this.apiKeyCulqi);
+  }
+
+  paymentCulqi(): void {
     const order = {
       "amount": this.amountTotal * 100,
       "currency_code": "PEN",
@@ -74,21 +76,19 @@ export class CartComponent {
       "expiration_date": (Math.floor(Date.now() / 1000) + 86400),
       "confirm": false
     };
-    setTimeout(() => {
-      this.ngxCulqiService.generateOrder(order).subscribe((response: Partial<IOrderCulqiResponse>) => {
-        const culqiSettings = {
-          title: order.description,
-          currency: 'PEN',
-          amount: order.amount,
-          order: response.id,
-          xculqirsaid: this.xculqirsaid,
-          rsapublickey: this.rsapublickey
-        };
+    this.ngxCulqiService.generateOrder(order).subscribe((response: Partial<IOrderCulqiResponse>) => {
+      const culqiSettings = {
+        title: order.description,
+        currency: 'PEN',
+        amount: order.amount,
+        order: response.id,
+        xculqirsaid: this.xculqirsaid,
+        rsapublickey: this.rsapublickey
+      };
 
-        const culqiOptions: ICulqiOptions = { style: this.styleCulqi };
-        this.ngxCulqiService.generateToken(culqiSettings, culqiOptions);
-      });
-    }, 3000);
+      const culqiOptions: ICulqiOptions = { style: this.styleCulqi };
+      this.ngxCulqiService.generateToken(culqiSettings, culqiOptions);
+    });
   }
 
   showToken(token: string): void {
