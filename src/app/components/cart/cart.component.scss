@@ -1,27 +1,39 @@
   .cardSettings {
-      margin: 20px 0;
-      background-color: #f7f5f5;
-      border-radius: 12px;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
+      .form {
+          margin: 20px 0;
+          background-color: #f7f5f5;
+          border-radius: 12px;
+          padding: 12px;
+          display: flex;
+          flex-direction: column;
 
-      .input {
-          border: 1px solid #e6e3e3;
-          margin: 4px 0;
-          padding: 4px 8px;
-          border-radius: 4px;
-          outline: none;
-      }
+          .input {
+              border: 1px solid #e6e3e3;
+              margin: 4px 0;
+              padding: 4px 8px;
+              border-radius: 4px;
+              outline: none;
 
-      .btn {
-          margin-top: 20px;
-          background-color: #E8103F;
-          padding: 8px 20px;
-          border-radius: 4px;
-          color: white;
-          width: 140px;
-          border: none;
+              &:disabled {
+                  background-color: #e6e3e3;
+                  cursor: not-allowed;
+              }
+          }
+
+          .btn {
+              margin-top: 20px;
+              background-color: #E8103F;
+              padding: 8px 20px;
+              border-radius: 4px;
+              color: white;
+              width: 140px;
+              border: none;
+
+              &:disabled {
+                  opacity: 0.5;
+                  cursor: not-allowed;
+              }
+          }
       }
   }
 

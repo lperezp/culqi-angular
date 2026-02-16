@@ -1,10 +1,19 @@
 <div class="cardSettings">
-    <p>Configure API KEY</p>
-    <input class="input" type="text" [(ngModel)]="tokenCulqi" placeholder="tokenCulqi" aria-label="tokenCulqi" />
-    <input class="input" type="text" [(ngModel)]="apiKeyCulqi" placeholder="apiKeyCulqi" aria-label="apiKeyCulqi" />
-    <input class="input" type="text" [(ngModel)]="xculqirsaid" placeholder="xculqirsaid" aria-label="xculqirsaid" />
-    <input class="input" type="text" [(ngModel)]="rsapublickey" placeholder="rsapublickey" aria-label="rsapublickey" />
-    <button class="btn" (click)="setConfigureCulqi()">Aplicar cambios</button>
+    <p>Configure API KEY. These variables are not stored. If you have any questions, please check the <a
+            href="https://github.com/lperezp/culqi-angular" target="_blank">repository</a>.</p>
+    <form class="form" [formGroup]="configForm">
+        <input class="input" type="text" formControlName="tokenCulqi" placeholder="tokenCulqi"
+            aria-label="tokenCulqi" />
+        <input class="input" type="text" formControlName="apiKeyCulqi" placeholder="apiKeyCulqi"
+            aria-label="apiKeyCulqi" />
+        <input class="input" type="text" formControlName="xculqirsaid" placeholder="xculqirsaid"
+            aria-label="xculqirsaid" />
+        <input class="input" type="text" formControlName="rsapublickey" placeholder="rsapublickey"
+            aria-label="rsapublickey" />
+        <button class="btn" type="button" [disabled]="isConfigured || !configForm.valid"
+            (click)="setConfigureCulqi()">Aplicar
+            cambios</button>
+    </form>
 </div>
 <div class="cart">
     <h2 class="title">Shopping Cart</h2>

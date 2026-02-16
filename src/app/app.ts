@@ -3,11 +3,10 @@ import { CartComponent } from "./components/cart/cart.component";
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  templateUrl: './app.html',
+  styleUrl: './app.scss',
   imports: [CartComponent]
 })
-export class AppComponent {
+export class App {
 
 }
